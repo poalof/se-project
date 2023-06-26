@@ -28,8 +28,11 @@
 		INSERT INTO Appointment(patient_id, timeslot_id, status)
 		VALUES (
 		  (SELECT patient_id FROM Patients WHERE patient_name = #{pName}),
-		  (SELECT time_slot_id FROM TimeSlot WHERE doctor_id=(select doctor_id from Doctors where doctor_name=#{dName})
-		  and month_day = #{date} AND time_slot = #{time} ),
+		  #{id},
 		  #{status});
 	</insert>
+	
+	<select id="GetTimeslotId" resultType="Integer">
+		select time_slot_id from TimeSlot where doctor_id=#{id} and month_day=#{date} and time_slot=#{time};
+	</select>
 </mapper>

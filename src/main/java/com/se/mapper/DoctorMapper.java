@@ -41,4 +41,6 @@ public interface DoctorMapper {
 
 	// 所有病历
 	public List<Case> GetAllCases(int doctorId);
+	
+	public Doctor GetDoctorById(int doctorId);
 }

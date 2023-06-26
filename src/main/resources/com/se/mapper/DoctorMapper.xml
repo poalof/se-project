@@ -34,19 +34,19 @@
 	</select>
 	
 	<select id="GetDoctorInfo" resultType="DoctorInfo">
-		select * from doctorinfo where doctor_id = #{doctorId};
+		select * from DoctorInfo where doctor_id = #{doctorId};
 	</select>
 	
 	<update id="UpdateProfile" parameterType="Doctor">
-		update doctors
+		update Doctors
 		set doctor_name = #{doctorName},age = #{age},phone=#{phone},mail=#{mail}
-		where doctors.doctor_id = #{doctorId};  
+		where Doctors.doctor_id = #{doctorId};  
 	</update>
 	
 	<update id="UpdateInfo" parameterType="DoctorInfo">
-		update doctorinfo
+		update DoctorInfo
 		set description = #{description}
-		where doctorinfo.doctor_id = #{doctorId};  
+		where DoctorInfo.doctor_id = #{doctorId};  
 	</update>
 	
 	<select id="GetAllowance" resultType="Integer">
@@ -62,10 +62,13 @@
 	
 	<select id="GetAllCases" resultMap="CaseResultMap">
 		select case_id, Doctors.doctor_name, Patients.patient_name, prescription, description
-		from cases join doctors on cases.doctor_id = doctors.doctor_id
-		join patients on cases.patient_id = patients.patient_id
-		where cases.doctor_id=#{id};
+		from Cases join Doctors on Cases.doctor_id = Doctors.doctor_id
+		join Patients on Cases.patient_id = Patients.patient_id
+		where Cases.doctor_id=#{id};
 	</select>
 	
+	<select id="GetDoctorById" resultMap="DoctorResultMap">
+		select * from Doctors join Dept on Doctors.dept_id = Dept.dept_id where doctor_id = #{doctorId};
+	</select>
 	
 </mapper>

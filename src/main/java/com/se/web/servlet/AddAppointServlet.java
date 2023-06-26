@@ -33,11 +33,8 @@ public class AddAppointServlet extends HttpServlet{
 		String pName = req.getParameter("patientName");
 		String dateString = req.getParameter("appointmentDate");
 		String doctorName = doctor.getDoctorName();
-		int timeslot;
-		if(req.getParameter("appointmentDate") == "Morning")
-			timeslot = 0;
-		else 
-			timeslot = 1;
+		int timeslot =Integer.parseInt(req.getParameter("timeSlot"));
+
 		//System.out.println(doctor.getDoctorId());
 		//System.out.println(dateString);
 		//System.out.println(timeslot);
@@ -48,9 +45,8 @@ public class AddAppointServlet extends HttpServlet{
 		//	req.getRequestDispatcher("/appointments.jsp").forward(req, resp);
 		//}
 		
-		System.out.println("here");
 		try {
-			AppointmentService.AddAppoint(pName, doctorName, dateString, timeslot, 0);
+			AppointmentService.AddAppoint(pName, doctor.getDoctorId(), dateString, timeslot, 0);
 			
 			req.setAttribute("new_msg", "添加成功");
 			req.getRequestDispatcher("/new_appointment.jsp").forward(req, resp);

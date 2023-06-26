@@ -18,44 +18,11 @@
 <body>
 <form method="post" action="" id="listform">
   <div class="panel admin-panel">
-    <div class="panel-head"><strong class="icon-reorder"> 接诊记录</strong> <a href="" style="float:right; display:none;"></a></div>
+    
     <div class="padding border-bottom">
-      
+      <h3>欢迎您，${doctor.getDoctorName()}医生！</h3>
     </div>
-    <table class="table table-hover text-center">
-      <tr>
-        <th width="100" style="text-align:left; padding-left:20px;" width="10%">ID</th>
-        <th width="10%">患者姓名</th>
-        <th width="10%">处方</th>
-        <th>描述</th>
-
-      </tr>
-      <volist name="list" id="vo">
-      	<%-- 调用Servlet获取预约信息的Session --%>
-            <%@ page import="javax.servlet.http.HttpSession" %>
-            <%@ page import="com.se.pojo.Case" %>
-            <%@ page import="java.util.*" %>
-            <% 
-               List<Case> cases = (List<Case>) session.getAttribute("cases");
-               if (cases != null) {
-                   for (Case c : cases) {
-            %>
-                  <tr>
-                  	  <td><%= c.getId() %></td>
-                      <td><%= c.getPatientName() %></td>
-                      <td><%= c.getPres() %></td>
-                      <td><%= c.getDesc() %></td>
-                  </tr>
-             <%   }
-               }
-             %>     
-             <span>${case_msg}</span>
-        
-      <!-- 
-      <tr>
-        <td colspan="8"><div class="pagelist"> <a href="">上一页</a> <span class="current">1</span><a href="">2</a><a href="">3</a><a href="">下一页</a><a href="">尾页</a> </div></td>
-      </tr>-->
-    </table>
+    
   </div>
 </form>
 <!--  

@@ -35,58 +35,6 @@ public class DoctorService{
 		
 	}
 	
-	/*
-	 * 数据检查
-	 * */
-	/*
-	public static void Check(Doctor doctor, ErrorType errorType) throws AccountExecption{
-		switch (errorType) {
-		case InconsistentType:
-			if(doctor.getType() == AccountType.DoctorTy)
-				return;
-			break;
-		
-		case InvalidPatientName:
-			if(doctor.getDoctorName()!=null && doctor.getDoctorName().matches(doctor.getDoctorNameReg()))
-				return;
-			break;
-		
-		case InvalidAge:
-			if(doctor.getAge() > 0 && doctor.getAge()<120)
-				return;
-			break;
-			
-		case InvalidPhone:
-			if(doctor.getPhone()!=null && doctor.getPhone().matches(Patient.getPhoneReg()))
-				return;
-			break;
-			
-		case InvalidMail:
-			if(doctor.getMail()!=null && doctor.getMail().matches(Patient.getMailReg()))
-				return;
-			break;
-			
-		case InvalidIdCard:
-			if(doctor.getIdCard()!=null && doctor.getIdCard().matches(Patient.getIdCardReg()))
-				return;
-			break;
-		
-		case InvalidPatientId:
-			if(doctor.getPatientId()!=Patient.getInvalidPatientId())
-				return;
-			break;
-		
-		default:
-			return;
-		}
-		
-		// 日志报错
-		// Log.LogToFile(false, errorType.toString(), "Account.Check");
-		
-		// 抛出异常
-		throw new AccountExecption(errorType, "Account.Check");
-	}
-	*/
 	
 	/*
 	 * 获取医生
@@ -100,7 +48,11 @@ public class DoctorService{
 		
 		// 3. 获取医生信息
 		Doctor result = doctorMapper.GetDoctor(account);
+		// 3.3 提交事务
+		sqlSession.commit();
 		
+		// 4. 释放资源
+		sqlSession.close();
 		return result;
 	}
 	
@@ -138,7 +90,12 @@ public class DoctorService{
 		
 		// 3. 获取医生信息
 		DoctorInfo res = doctorMapper.GetDoctorInfo(doctorId);
-				
+		
+		// 3.3 提交事务
+		sqlSession.commit();
+		
+		// 4. 释放资源
+		sqlSession.close();
 		return res;
 	}
 	
@@ -158,7 +115,9 @@ public class DoctorService{
 		
 		// 3.4 提交事务
 		sqlSession.commit();
-		
+			
+		// 4. 释放资源
+		sqlSession.close();
 	}
 	
 	/**
@@ -176,7 +135,9 @@ public class DoctorService{
 		doctorMapper.UpdateInfo(doctorInfo);
 		
 		// 3.4 提交事务
-		sqlSession.commit();
+		sqlSession.commit();	
+		// 4. 释放资源
+		sqlSession.close();
 	}
 	
 	// 获得当天的剩余可挂号数量
@@ -205,6 +166,9 @@ public class DoctorService{
 		
 		// 3.4 提交事务
 		sqlSession.commit();
+		
+		// 4. 释放资源
+		sqlSession.close();
 	}
 
 	// 获得所有接诊记录
@@ -216,6 +180,18 @@ public class DoctorService{
 		DoctorMapper doctorMapper = sqlSession.getMapper(DoctorMapper.class);
 		
 		return doctorMapper.GetAllCases(doctorId);
+		
+	}
+	
+	// 获得所有接诊记录
+	public static Doctor GetDoctorById(int doctorId) {
+		// 1. 获取Sqlsession
+		SqlSession sqlSession = factory.openSession();
+		
+		// 2. 
+		DoctorMapper doctorMapper = sqlSession.getMapper(DoctorMapper.class);
+		
+		return doctorMapper.GetDoctorById(doctorId);
 		
 	}
 }

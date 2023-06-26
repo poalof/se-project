@@ -23,17 +23,18 @@ public class DoctorLoginServlet extends HttpServlet{
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// 1. 处理POST请求乱码
 		req.setCharacterEncoding("UTF-8");
-		
+		System.out.println("here");
 		// 2. 接收表单数据，封装为Account对象
 		Account account = new Account(
 				req.getParameter("accountName"),
 				req.getParameter("password")
 		);
-		
+		System.out.println("here");
 		// 3. 通过DoctorService 完成登陆
 		try {
 			// 3.1.1 尝试登陆，若出错则抛出异常
 			Doctor doctor = DoctorService.LogIn(account);
+			//System.out.println("here");
 			DoctorInfo doctorInfo = DoctorService.GetDoctorInfo(doctor.getDoctorId());
 			// 3.1.2 登陆成功
 			// 获取会话对象
@@ -74,7 +75,7 @@ public class DoctorLoginServlet extends HttpServlet{
 			req.setAttribute("login_msg", msg);
 			
 			// 3.2.2 转发到登陆界面
-			req.getRequestDispatcher("/login.jsp").forward(req, resp);
+			req.getRequestDispatcher("/index.jsp").forward(req, resp);
 		}		
 	}
 	

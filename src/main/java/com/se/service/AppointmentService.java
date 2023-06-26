@@ -2,6 +2,7 @@ package com.se.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
 
@@ -39,14 +40,23 @@ public class AppointmentService{
 	}
 	
 	// 插入一条
-	public static void AddAppoint(String pName, String dName, String date, int time, int status){
+	public static void AddAppoint(String pName, int dId, String date, int time, int status){
 		SqlSession sqlSession = factory.openSession();
 		
-		AppointmentMapper appointmentMapper = sqlSession.getMapper(AppointmentMapper.class);
-		
-		appointmentMapper.InsertAppointment(pName, dName, date, time, status);
 
-		sqlSession.commit();
+		AppointmentMapper appointmentMapper = sqlSession.getMapper(AppointmentMapper.class);
+		try {
+			int id = appointmentMapper.GetTimeslotId(dId, date, time);
+			//appointmentMapper.InsertAppointment(pName, dName, date, time, status);
+			appointmentMapper.InsertAppointment(pName, id, status);
+			
+			sqlSession.commit();
+		} catch (Exception e) {
+			sqlSession.rollback();
+			e.printStackTrace();
+		}
+
+		
 		sqlSession.close();
 	}
 

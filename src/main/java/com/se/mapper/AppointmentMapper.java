@@ -12,6 +12,11 @@ public interface AppointmentMapper {
 	public List<Appointment> SelectByDoctorId(int doctorId);
 
 	// ???
-	public void InsertAppointment(@Param("pName") String pName, @Param("dName") String dName, 
-			@Param("date") String date, @Param("time") int time, @Param("status") int status);
+	//public void InsertAppointment(@Param("pName") String pName, @Param("dName") String dName, 
+	//		@Param("date") String date, @Param("time") int time, @Param("status") int status);
+	public void InsertAppointment(@Param("pName") String pName, @Param("id") int id, 
+					@Param("status") int status);
+	
+	public Integer GetTimeslotId(@Param("id") int id, 
+			@Param("date") String date, @Param("time") int time);
 }
